@@ -1,0 +1,96 @@
+
+
+/*********
+* TABLES *
+*********/
+
+#toolbar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#toolbar select {
+    flex-shrink: 1;
+    flex-grow: 0;
+    margin: 0px 5px;
+}
+
+#toolbar button {
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+div:has(> #toolbar) {
+    float: right !important;
+}
+
+#table {
+    font-size: smaller;
+}
+
+/* hacky fix for "Table overlaps the charts filters and renders the download button unclickable,
+unless the table is fully extended. It seems to come from the .fixed-table-body class" */
+.fixed-table-body {
+    height: auto !important;
+}
+
+
+/*******
+* FORM *
+*******/
+
+.vr {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0px 20px;
+}
+
+hr {
+    margin: 30px 0px;
+}
+
+/*********
+* IMAGES *
+*********/
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#image-gallery .container {
+    padding: 0px;
+    margin: 0px 10px;
+    width: fit-content;
+    max-width: 320;
+}
+
+#image-gallery .card {
+    margin-bottom: 24px;
+}
+
+.chart-img {
+    /* Keep the aspect ratio of the image */
+    object-fit: scale-down;
+    max-height: 300px;
+
+    border: 1px solid #ddd;
+    margin: 0px;
+    padding: 0px;
+}
+
+#image-gallery .chart-img:hover {
+    transition: filter 100ms ease-in-out;
+    filter: brightness(95%);
+}
+
+#image-gallery .btn {
+    margin: 5px;
+}
+
+#image-gallery .btn > img{
+    /* SVG goes white on hover */
+    filter: invert(100%) sepia(0%) saturate(7467%) hue-rotate(175deg) brightness(111%) contrast(98%); 
+}

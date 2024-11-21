@@ -1,0 +1,35 @@
+{
+  "gdpr_compliance":"relax",
+
+  "entrypoint": "ab_text",
+
+  "variables":{
+    "title":"FlexEval Example",
+    "authors":"Maxime Perrot",
+    "description":"This is the FlexEval example instance."
+  },
+
+  "admin":{
+    "entrypoint":{"mod":"admin_panel","password":"bflzefinlh67s","variables":{"subtitle":"Admin Panel"}},
+    "mods": [
+      {"mod":"export_bdd","variables":{"subtitle":"Download BDD","subdescription":"Download the database in CSV or SQLite format."}},
+      {"mod":"results_panel","variables":{"subtitle":"Results panel","subdescription":"View the results of your tests"}}
+    ]
+  },
+
+  "stages": {
+    "ab_text":             {"type": "test",          "template":"ab.tpl",       "next":"mos_text",     "nb_steps":2,   "nb_step_intro":1,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
+    "mos_text":            {"type": "test",          "template":"mos.tpl",      "next":"mushra_text",  "nb_steps":2,   "nb_step_intro":1,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
+    "mushra_text":         {"type": "test",          "template":"mushra.tpl",   "next":"ab_image",      "nb_steps":2,   "nb_step_intro":1,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "ab_image":            {"type": "test",          "template":"ab.tpl",       "next":"mos_image",     "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
+    "mos_image":           {"type": "test",          "template":"mos.tpl",      "next":"mushra_image",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
+    "mushra_image":        {"type": "test",          "template":"mushra.tpl",   "next":"ab_audio",      "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "ab_audio":            {"type": "test",          "template":"ab.tpl",       "next":"mos_audio",     "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
+    "mos_audio":           {"type": "test",          "template":"mos.tpl",      "next":"mushra_audio",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
+    "mushra_audio":        {"type": "test",          "template":"mushra.tpl",   "next":"ab_video",      "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "ab_video":            {"type": "test",          "template":"ab.tpl",       "next":"mos_video",     "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
+    "mos_video":           {"type": "test",          "template":"mos.tpl",      "next":"mushra_video",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
+    "mushra_video":        {"type": "test",          "template":"mushra.tpl",   "next":"test_end",      "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "test_end":            {"type": "page:user",     "template":"end.tpl"}
+  }
+}

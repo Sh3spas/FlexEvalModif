@@ -1,0 +1,22 @@
+# Python
+*.pyc
+python3.lnk
+__pycache__
+
+# Generated files
+*.log
+*.tmp
+*.old
+
+# Generated instance files
+examples/*/assets
+examples/*/*.db
+
+# IDE directories
+\.vscode/
+
+
+# Personal files
+REMINDER
+TODO
+*IGNORE*

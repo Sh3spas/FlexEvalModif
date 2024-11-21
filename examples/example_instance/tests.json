@@ -1,0 +1,102 @@
+{
+  "ab_text":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system1.csv"},
+      {"name": "sys2", "data": "system2.csv"}
+    ]
+  },
+  "mos_text":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system1.csv"},
+      {"name": "sys2", "data": "system2.csv"}
+    ]
+  },
+  "mushra_text":
+  {
+    "systems":
+    [
+      {"name": "ref", "data": "system1.csv"},
+      {"name": "sys1", "data": "system1.csv"},
+      {"name": "sys2", "data": "system2.csv"}
+    ]
+  },
+  "ab_image":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system10.csv"},
+      {"name": "sys2", "data": "system20.csv"}
+    ]
+  },
+  "mos_image":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system10.csv"},
+      {"name": "sys2", "data": "system20.csv"}
+    ]
+  },
+  "mushra_image":
+  {
+    "systems":
+    [
+      {"name": "ref", "data": "system10.csv"},
+      {"name": "sys1", "data": "system10.csv"},
+      {"name": "sys2", "data": "system20.csv"}
+    ]
+  },
+  "ab_audio":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system100.csv"},
+      {"name": "sys2", "data": "system200.csv"}
+    ]
+  },
+  "mos_audio":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system100.csv"},
+      {"name": "sys2", "data": "system200.csv"}
+    ]
+  },
+  "mushra_audio":
+  {
+    "systems":
+    [
+      {"name": "ref", "data": "system100.csv"},
+      {"name": "sys1", "data": "system100.csv"},
+      {"name": "sys2", "data": "system200.csv"}
+    ]
+  },
+  "ab_video":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system1000.csv"},
+      {"name": "sys2", "data": "system2000.csv"}
+    ]
+  },
+  "mos_video":
+  {
+    "systems":
+    [
+      {"name": "sys1", "data": "system1000.csv"},
+      {"name": "sys2", "data": "system2000.csv"}
+    ]
+  },
+  "mushra_video":
+  {
+    "systems":
+    [
+      {"name": "ref", "data": "system1000.csv"},
+      {"name": "sys1", "data": "system1000.csv"},
+      {"name": "sys2", "data": "system2000.csv"}
+    ]
+  }
+}
