@@ -101,7 +101,9 @@ class Test():
         except Exception as e:
             raise MalformationError("system_all_aligned need to be a boolean value.")
 
-        for system_i,system in enumerate(config["systems"]):
+        for system_i, system in enumerate(config["systems"]):
+            system_name = system["name"]
+            self.systems[system_name] = (SystemManager().get(system_name), None)
 
             aligned_with=None
 
@@ -114,7 +116,8 @@ class Test():
             if system_all_aligned and system_i > 0:
                 aligned_with = config["systems"][0]["name"]
 
-            self.systems[system["name"]] = (SystemManager().get(system["data"].replace(".csv","")),aligned_with)
+            self.systems[system["name"]] = (SystemManager().get(system["name"]), aligned_with)
+
 
         # Init ou Regen la repr en bdd & les relations
 
@@ -191,8 +194,10 @@ class Test():
     def nb_steps_complete_by(self,user):
         return len(getattr(user,self.testSampleModel.__name__))
 
-    def choose_syssample_for_system(self,user,system_name):
-        (system,aligned_with) = self.systems[system_name]
+    def choose_syssample_for_system(self, user, system_name):
+        print(f"choose_syssample_for_system called with user: {user}, system_name: {system_name}")
+        (system, aligned_with) = self.systems[system_name]
+        print(f"System: {system}, Aligned with: {aligned_with}")
 
         assert aligned_with is None
 
@@ -200,91 +205,91 @@ class Test():
         min_times_syssample_have_been_selected = None
 
         system_syssamples = system.system_samples
+        print(f"System samples available: {[s.id for s in system_syssamples]}")
 
         transactions = self.get_transactions()
+        print(f"Current transactions: {transactions}")
+
         syssample_in_process = {}
         for transaction in transactions:
-
             if "choice_for_systems" in transaction:
-
                 intro_step = transaction["intro_step"]
+                if not intro_step:
+                    idsyssample = transaction["choice_for_systems"][system_name]._systemsample.id
+                    syssample_in_process[str(idsyssample)] = syssample_in_process.get(str(idsyssample), 0) + 1
 
-                if not(intro_step):
-                    if "choice_for_systems" in transaction:
-                        idsyssample = transaction["choice_for_systems"][system_name]._systemsample.id
-
-                        if idsyssample in syssample_in_process:
-                            syssample_in_process[str(idsyssample)] = syssample_in_process[str(idsyssample)] + 1
-                        else:
-                            syssample_in_process[str(idsyssample)] =  1
+        print(f"System samples in process: {syssample_in_process}")
 
         for syssample in system_syssamples:
+            syssample_already_seen_by_user = [
+                getattr(tSample, f"SystemSample_{system_name}")
+                for tSample in getattr(user, self.testSampleModel.__name__)
+                if not tSample.intro
+            ]
 
-            syssample_already_seen_by_user = []
-            for tSample in getattr(user,self.testSampleModel.__name__):
-                if not(tSample.intro): # Si le testSample correspond à un testSample d'intro, on ne le compte pas pour le brassage.
-                    syssample_already_seen_by_user.append(getattr(tSample,"SystemSample_"+system_name))
+            if syssample not in syssample_already_seen_by_user:
+                nb_times_syssample_have_been_selected = len(getattr(syssample, f"{self.testSampleModel.__name__}_{system_name}"))
+                nb_times_syssample_have_been_selected += syssample_in_process.get(str(syssample.id), 0)
 
-            if not(syssample in syssample_already_seen_by_user):
-
-                nb_times_syssample_have_been_selected = len(getattr(syssample,self.testSampleModel.__name__+"_"+system_name))
-                if str(syssample.id) in syssample_in_process:
-                    nb_times_syssample_have_been_selected = syssample_in_process[str(syssample.id)] + nb_times_syssample_have_been_selected
-
-                if(min_times_syssample_have_been_selected is None):
-                    min_times_syssample_have_been_selected = nb_times_syssample_have_been_selected
-                    choices.append(syssample)
-                elif(min_times_syssample_have_been_selected == nb_times_syssample_have_been_selected):
-                    choices.append(syssample)
-                elif(min_times_syssample_have_been_selected > nb_times_syssample_have_been_selected):
+                if min_times_syssample_have_been_selected is None or nb_times_syssample_have_been_selected < min_times_syssample_have_been_selected:
                     min_times_syssample_have_been_selected = nb_times_syssample_have_been_selected
                     choices = [syssample]
+                elif nb_times_syssample_have_been_selected == min_times_syssample_have_been_selected:
+                    choices.append(syssample)
 
-        if len(choices) == 0:
+        if not choices:
             choices = system.system_samples
 
-        return random.choice(choices)
+        selected = random.choice(choices)
+        print(f"Selected system sample: {selected.id}")
+        return selected
 
-    def make_same_choice_syssample(self,system_name,syssample_source):
-        (system,aligned_with) = self.systems[system_name]
-        return system.system_samples[syssample_source.line_id]
 
-    def get_syssample_for_step(self,choice_for_systems,system_name,user):
-        (system,aligned_with) = self.systems[system_name]
+    def make_same_choice_syssample(self, system_name, syssample_source):
+        print(f"make_same_choice_syssample called with system_name: {system_name}, syssample_source: {syssample_source}")
+        (system, aligned_with) = self.systems[system_name]
+        selected = system.system_samples[syssample_source.line_id]
+        print(f"Selected same sample as source: {selected.id}")
+        return selected
+
+
+    def get_syssample_for_step(self, choice_for_systems, system_name, user):
+        print(f"get_syssample_for_step called with choice_for_systems: {choice_for_systems}, system_name: {system_name}, user: {user}")
+        (system, aligned_with) = self.systems[system_name]
 
         if system_name in choice_for_systems:
-            choice_for_systems[system_name]
+            print(f"System {system_name} already has a choice: {choice_for_systems[system_name]}")
         else:
             if aligned_with is None:
-                choice_for_systems[system_name] = self.choose_syssample_for_system(user,system_name)
+                choice_for_systems[system_name] = self.choose_syssample_for_system(user, system_name)
             else:
-                if not(aligned_with in choice_for_systems):
-                    self.get_syssample_for_step(choice_for_systems,aligned_with,user)
+                if aligned_with not in choice_for_systems:
+                    self.get_syssample_for_step(choice_for_systems, aligned_with, user)
+                choice_for_systems[system_name] = self.make_same_choice_syssample(system_name, choice_for_systems[aligned_with])
 
-                choice_for_systems[system_name] = self.make_same_choice_syssample(system_name,choice_for_systems[aligned_with])
 
-    def get_step(self,user,is_intro_step=False):
-
-        choice_for_systems={}
+    def get_step(self, user, is_intro_step=False):
+        print(f"get_step called with user: {user}, is_intro_step: {is_intro_step}")
+        choice_for_systems = {}
 
         if self.has_transaction(user):
-            return self.get_in_transaction(user,"choice_for_systems")
+            print("User already has an active transaction.")
+            return self.get_in_transaction(user, "choice_for_systems")
         else:
-
+            print("Creating a new transaction for the user.")
             self.create_transaction(user)
 
             for system_name in self.systems.keys():
-                self.get_syssample_for_step(choice_for_systems,system_name,user)
+                self.get_syssample_for_step(choice_for_systems, system_name, user)
 
-            for system_name in choice_for_systems.keys():
-                (system,aligned_with) = self.systems[system_name]
-                syssample = choice_for_systems[system_name]
-
+            for system_name, syssample in choice_for_systems.items():
                 id_in_transaction = self.create_row_in_transaction(user)
-                self.set_in_transaction(user,id_in_transaction,(system_name,syssample.id))
-                choice_for_systems[system_name] = SystemSampleTemplate(id_in_transaction,system_name,syssample)
+                self.set_in_transaction(user, id_in_transaction, (system_name, syssample.id))
+                choice_for_systems[system_name] = SystemSampleTemplate(id_in_transaction, system_name, syssample)
 
-            self.set_in_transaction(user,"intro_step",is_intro_step)
-            self.set_in_transaction(user,"choice_for_systems",choice_for_systems)
+            self.set_in_transaction(user, "intro_step", is_intro_step)
+            self.set_in_transaction(user, "choice_for_systems", choice_for_systems)
 
+            print(f"Generated choice for systems: {choice_for_systems}")
             return choice_for_systems
+
