@@ -3,11 +3,13 @@
     "systems": [
       {
         "name": "sys1",
-        "data": "files_refs_FHarvardF_.csv"
+        "context":"files_refs_FHarvardF_",
+        "data": "all_systems.csv"
       },
       {
         "name": "sys2",
-        "data": "files_cloned_samples_mufasa4+_FHarvardF_.csv"
+        "context":"files_cloned_samples_mufasa4+_FHarvardF_",
+        "data": "all_systems.csv"
       }
     ]
   },
@@ -15,11 +17,15 @@
     "systems": [
       {
         "name": "sys1",
-        "data": "files_refs_FHarvardM_.csv"
+        "context":"files_refs_FHarvardM_",
+        "data": "all_systems.csv"
       },
       {
         "name": "sys2",
+        "context":"files_cloned_samples_siwis_FHarvardF_",
         "data": "files_cloned_samples_siwis_FHarvardF_.csv"
+
+
       }
     ]
   }
