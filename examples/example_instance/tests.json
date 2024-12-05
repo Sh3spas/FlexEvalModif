@@ -1,8 +1,0 @@
-{
-  "ab_text": {
-    "systems": [
-      {"name": "sys1", "data": "all_systems.csv"},
-      {"name": "sys2", "data": "all_systems.csv"}
-    ]
-  }
-}

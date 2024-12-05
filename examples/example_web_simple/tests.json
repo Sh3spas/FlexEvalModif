@@ -1,0 +1,16 @@
+{
+  "testUn_ab": {
+    "systems": [
+      {
+        "name": "sys1",
+        "context" : "images_image1_",
+        "data": "all_systems.csv"
+      },
+      {
+        "name": "sys2",
+        "context" : "images_image2_",
+        "data": "all_systems.csv"
+      }
+    ]
+  }
+}

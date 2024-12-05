@@ -32,7 +32,7 @@
 
         {% for syssample in get_variable("syssamples") %}
           {%
-            set content,mimetype = syssample.get(num=1)
+            set content,mimetype = syssample.get(num=2)
           %}
 
           <div class="form-check col-auto mb-3 test-content-col">

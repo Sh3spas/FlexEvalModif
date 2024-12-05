@@ -1,0 +1,93 @@
+{
+  "gdpr_compliance": "relax",
+  "entrypoint": "testUn_ab",
+  "variables": {
+    "title": "FlexEval",
+    "authors": "Cédric Fayet",
+    "description": "FlexEval is a flexible evaluation platform for subjective tests."
+  },
+  "admin": {
+    "entrypoint": {
+      "mod": "admin_panel",
+      "password": "password",
+      "variables": {
+        "subtitle": "Admin Panel"
+      }
+    },
+    "mods": [
+      {
+        "mod": "export_bdd",
+        "variables": {
+          "subtitle": "Download BDD",
+          "subdescription": "Download the database in CSV or SQLite format."
+        }
+      },
+      {
+        "mod": "results_panel",
+        "variables": {
+          "subtitle": "Results panel",
+          "subdescription": "View the results of your tests"
+        }
+      }
+    ]
+  },
+  "interface": {
+    "entrypoint": {
+      "mod": "interface",
+      "variables": {
+        "subtitle": "Configuration des tests"
+      }
+    }
+  },
+  "stages": {
+    "page_login": {
+      "type": "auth_by_invitation",
+      "next": "info_user"
+    },
+    "debut_du_test": {
+      "type": "page:visitor",
+      "template": "welcome.tpl",
+      "next": "page_de_login"
+    },
+    "page_de_login": {
+      "type": "direct_auth",
+      "next": "info_user"
+    },
+    "info_user": {
+      "type": "form",
+      "template": "info.tpl",
+      "next": "more_info_user"
+    },
+    "more_info_user": {
+      "type": "form",
+      "template": "avatar.tpl",
+      "next": "dyn_form_test"
+    },
+    "fin": {
+      "type": "page:user",
+      "template": "end.tpl"
+    },
+    "testUn_ab": {
+      "type": "test",
+      "template": "ab.tpl",
+      "next": "testDeux_ab",
+      "nb_steps": 2,
+      "nb_step_intro": 1,
+      "transaction_timeout_seconds": 600,
+      "variables": {
+        "subtitle": "Test ab"
+      }
+    },
+    "testDeux_ab": {
+      "type": "test",
+      "template": "ab.tpl",
+      "next": "fin",
+      "nb_steps": 2,
+      "nb_step_intro": 1,
+      "transaction_timeout_seconds": 600,
+      "variables": {
+        "subtitle": "Test ab"
+      }
+    }
+  }
+}

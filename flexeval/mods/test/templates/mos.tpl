@@ -27,7 +27,7 @@
     <div class="row content-row">
       {% for syssample in get_variable("syssamples") %}
         {% set field_name = get_variable("field_name",name="MOS_score",syssamples=[syssample]) %}
-        {% set content,mimetype = syssample.get(num=1)  %}
+        {% set content,mimetype = syssample.get(num=2)  %}
         <div class="col-auto">
           <div class="input-group test-content-col">
             <label for="score@{{syssample.ID}}">

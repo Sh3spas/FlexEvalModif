@@ -18,18 +18,15 @@
   },
 
   "stages": {
-    "ab_text":             {"type": "test",          "template":"ab.tpl",       "next":"mos_text",     "nb_steps":10,   "nb_step_intro":1,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
-    "mos_text":            {"type": "test",          "template":"mos.tpl",      "next":"mushra_text",  "nb_steps":10,   "nb_step_intro":1,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
-    "mushra_text":         {"type": "test",          "template":"mushra.tpl",   "next":"ab_image",      "nb_steps":10,   "nb_step_intro":1,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "ab_text":             {"type": "test",          "template":"ab.tpl",       "next":"mos_text",     "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
+    "mos_text":            {"type": "test",          "template":"mos.tpl",      "next":"ab_image",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
+
     "ab_image":            {"type": "test",          "template":"ab.tpl",       "next":"mos_image",     "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
-    "mos_image":           {"type": "test",          "template":"mos.tpl",      "next":"mushra_image",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
-    "mushra_image":        {"type": "test",          "template":"mushra.tpl",   "next":"ab_audio",      "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "mos_image":           {"type": "test",          "template":"mos.tpl",      "next":"ab_audio",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
     "ab_audio":            {"type": "test",          "template":"ab.tpl",       "next":"mos_audio",     "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
-    "mos_audio":           {"type": "test",          "template":"mos.tpl",      "next":"mushra_audio",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
-    "mushra_audio":        {"type": "test",          "template":"mushra.tpl",   "next":"ab_video",      "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "mos_audio":           {"type": "test",          "template":"mos.tpl",      "next":"ab_video",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
     "ab_video":            {"type": "test",          "template":"ab.tpl",       "next":"mos_video",     "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test AB"} },
-    "mos_video":           {"type": "test",          "template":"mos.tpl",      "next":"mushra_video",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
-    "mushra_video":        {"type": "test",          "template":"mushra.tpl",   "next":"test_end",      "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MUSHRA", "sysref":"ref"} },
+    "mos_video":           {"type": "test",          "template":"mos.tpl",      "next":"test_end",  "nb_steps":1,   "nb_step_intro":0,  "transaction_timeout_seconds":600, "variables":{"subtitle":"Test MOS"} },
     "test_end":            {"type": "page:user",     "template":"end.tpl"}
   }
 }

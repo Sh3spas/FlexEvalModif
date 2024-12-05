@@ -1,0 +1,26 @@
+{
+  "testUn_ab": {
+    "systems": [
+      {
+        "name": "sys1",
+        "data": "files_refs_FHarvardF_.csv"
+      },
+      {
+        "name": "sys2",
+        "data": "files_cloned_samples_mufasa4+_FHarvardF_.csv"
+      }
+    ]
+  },
+  "testDeux_ab": {
+    "systems": [
+      {
+        "name": "sys1",
+        "data": "files_refs_FHarvardM_.csv"
+      },
+      {
+        "name": "sys2",
+        "data": "files_cloned_samples_siwis_FHarvardF_.csv"
+      }
+    ]
+  }
+}

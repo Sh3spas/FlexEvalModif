@@ -20,7 +20,8 @@ from .System import SystemManager
 class SystemSampleTemplate():
 
     def __init__(self,id,system_name,systemsample):
-        self._system = SystemManager().get(systemsample.system)
+        self._system = SystemManager().get(systemsample.system, systemsample.context)
+
         self._systemsample = systemsample
         self.system_name = system_name
         self._ID = id
@@ -103,7 +104,9 @@ class Test():
 
         for system_i, system in enumerate(config["systems"]):
             system_name = system["name"]
-            self.systems[system_name] = (SystemManager().get(system_name), None)
+            system_context = system.get("context", "default")  # Extract context
+            self.systems[system_name] = (SystemManager().get(system_name, system_context), None)
+
 
             aligned_with=None
 
@@ -116,7 +119,8 @@ class Test():
             if system_all_aligned and system_i > 0:
                 aligned_with = config["systems"][0]["name"]
 
-            self.systems[system["name"]] = (SystemManager().get(system["name"]), aligned_with)
+            self.systems[system["name"]] = (SystemManager().get(system["name"], system["context"]), aligned_with)
+
 
 
         # Init ou Regen la repr en bdd & les relations

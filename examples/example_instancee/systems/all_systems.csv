@@ -1,18 +1,142 @@
-system_name	asset
-sys1	system1lin1
-sys1	system1lin2
-sys1	system1lin3
-sys1	system1lin4
-sys1	system1lin5
-sys1	system1lin6
-sys1	system1lin7
-sys1	system1lin8
-sys2	system2lin1
-sys2	system2lin2
-sys2	system2lin3
-sys2	system2lin4
-sys2	system2lin5
-sys2	system2lin6
-sys2	system2lin7
-sys2	system2lin8
-sys2	system2lin9
+context	system_name	asset
+system1	sys1	system1lin1
+system1	sys1	system1lin2
+system1	sys1	system1lin3
+system1	sys1	system1lin4
+system1	sys1	system1lin5
+system1	sys1	system1lin6
+system1	sys1	system1lin7
+system1	sys1	system1lin8
+system2	sys2	system2lin1
+system2	sys2	system2lin2
+system2	sys2	system2lin3
+system2	sys2	system2lin4
+system2	sys2	system2lin5
+system2	sys2	system2lin6
+system2	sys2	system2lin7
+system2	sys2	system2lin8
+system2	sys2	system2lin9
+		
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system10	sys1	files/stargate.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+system20	sys2	files/startrek.jpg
+		
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system100	sys1	files/audio1.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+system200	sys2	files/audio2.wav
+		
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+system1000	sys1	files/video.mp4
+		
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
+system2000	sys2	files/video.mp4
