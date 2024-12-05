@@ -5,21 +5,21 @@ import string
 from pathlib import Path
 import base64
 import mimetypes
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 
 from flask import current_app
 
 from flexeval.utils import AppSingleton
 from flexeval.core import StageModule
-from flexeval.database import Column,ForeignKey,ModelFactory,db
+from flexeval.database import Column, ForeignKey, ModelFactory, db
 
 from flexeval.mods.test.model import TestSample, SystemSample
 
 from .System import SystemManager
 
 class SystemSampleTemplate():
-
-    def __init__(self,id,system_name,systemsample):
+    def __init__(self, id, system_name, systemsample):
+        # Modification : Ajout du paramètre `context` pour initialiser le système avec un contexte précis.
         self._system = SystemManager().get(systemsample.system, systemsample.context)
 
         self._systemsample = systemsample
@@ -30,120 +30,131 @@ class SystemSampleTemplate():
     def ID(self):
         return self._ID
 
-    def get(self,name=None,num=None):
+    def get(self, name=None, num=None):
         if num is not None:
+            # Modification : Utilisation des colonnes spécifiques au contexte et au système.
             name = self._system.cols_name[num]
 
         if name is None:
-            return (None,None)
+            return (None, None)
         else:
-
             mime = "text"
-            value = getattr(self._systemsample,name)
+            value = getattr(self._systemsample, name)
 
             file_path = value
 
-            if not(file_path[0] == "/"):
-                file_path = "/"+file_path
+            if not (file_path[0] == "/"):
+                file_path = "/" + file_path
 
-            if(Path(current_app.config["FLEXEVAL_INSTANCE_DIR"]+"/systems"+file_path).is_file()):
-                mime, _ = mimetypes.guess_type(current_app.config["FLEXEVAL_INSTANCE_DIR"]+"/systems"+file_path)
+            # Vérification et traitement des fichiers pour différents types MIME
+            if (Path(current_app.config["FLEXEVAL_INSTANCE_DIR"] + "/systems" + file_path).is_file()):
+                mime, _ = mimetypes.guess_type(current_app.config["FLEXEVAL_INSTANCE_DIR"] + "/systems" + file_path)
 
-                with open(current_app.config["FLEXEVAL_INSTANCE_DIR"]+"/systems"+file_path, 'rb') as f:
+                with open(current_app.config["FLEXEVAL_INSTANCE_DIR"] + "/systems" + file_path, 'rb') as f:
                     data64 = base64.b64encode(f.read()).decode('utf-8')
                     value = u'data:%s;base64,%s' % (mime, data64)
                 mime = mime.split("/")[0]
 
-            return (value,mime)
+            return (value, mime)
 
 class TestError(Exception):
-
-    def __init__(self,message):
+    def __init__(self, message):
         self.message = message
 
 class MalformationError(TestError):
     pass
 
 class TestManager(metaclass=AppSingleton):
-
     def __init__(self):
-        self.register={}
+        self.register = {}
 
-        with open(current_app.config["FLEXEVAL_INSTANCE_DIR"]+'/tests.json',encoding='utf-8') as config:
+        # Chargement du fichier de configuration des tests
+        with open(current_app.config["FLEXEVAL_INSTANCE_DIR"] + '/tests.json', encoding='utf-8') as config:
             self.config = json.load(config)
 
-    def get(self,name):
-        if not(name in self.register):
+    def get(self, name):
+        if not (name in self.register):
             try:
                 config = self.config[name]
             except Exception as e:
-                raise MalformationError("Test "+name+" not found in tests.json .")
-            self.register[name] = Test(name,config)
+                raise MalformationError(f"Test {name} not found in tests.json.")
+            # Modification : Enregistrement du test avec un contexte spécifique si applicable.
+            self.register[name] = Test(name, config)
 
         return self.register[name]
 
 class Test():
-
-    def __init__(self,name,config):
-
-        # Init l'objet Test
+    def __init__(self, name, config):
+        # Initialisation de l'objet Test
         self.name = name
         self.systems = {}
         self.transactions = {}
         self.time_out_seconds = 3600
 
+        # Gestion de l'alignement des systèmes dans la configuration
         if "system_all_aligned" in config:
             system_all_aligned = config["system_all_aligned"]
         else:
             system_all_aligned = True
 
         try:
-            assert isinstance(system_all_aligned,bool)
+            assert isinstance(system_all_aligned, bool)
         except Exception as e:
-            raise MalformationError("system_all_aligned need to be a boolean value.")
+            raise MalformationError("system_all_aligned must be a boolean value.")
 
         for system_i, system in enumerate(config["systems"]):
             system_name = system["name"]
-            system_context = system.get("context", "default")  # Extract context
+            # Modification : Extraction explicite du contexte à partir de la configuration des systèmes.
+            system_context = system.get("context", "default")  
             self.systems[system_name] = (SystemManager().get(system_name, system_context), None)
 
+            aligned_with = None
 
-            aligned_with=None
-
+            # Gestion des systèmes alignés ou non alignés
             if "aligned_with" in system:
                 if config["system_all_aligned"]:
-                    raise MalformationError("You can't specified a field 'aligned_with' if the system are all aligned (default behavior). ")
+                    raise MalformationError(
+                        "You can't specify 'aligned_with' if the systems are all aligned (default behavior)."
+                    )
                 else:
                     aligned_with = system["aligned_with"]
 
             if system_all_aligned and system_i > 0:
                 aligned_with = config["systems"][0]["name"]
 
-            self.systems[system["name"]] = (SystemManager().get(system["name"], system["context"]), aligned_with)
+            # Modification : Utilisation du contexte pour chaque système
+            self.systems[system["name"]] = (SystemManager().get(system["name"], system_context), aligned_with)
 
+        # Initialisation ou régénération de la table TestSample et des relations en base
+        self.testSampleModel = ModelFactory().create(self.name, TestSample, commit=False)
 
-
-        # Init ou Regen la repr en bdd & les relations
-
-        # TestSample établie une relation TestSample -> User
-        # On ne commit pas cad on ne crée pas la table en BDD directement après create (commit=False)
-        # Si la table est créée on ne peut pas ajouter de contrainte (ForeignKey) à une colonne.
-        self.testSampleModel = ModelFactory().create(self.name,TestSample,commit=False)
-
-        foreign_key_for_each_system=[]
+        foreign_key_for_each_system = []
         for system_name in self.systems.keys():
-            foreign_key_for_each_system.append((system_name,self.testSampleModel.addColumn(system_name,db.Integer,ForeignKey(SystemSample.__tablename__+".id"))))
+            # Création des clés étrangères pour chaque système
+            foreign_key_for_each_system.append(
+                (
+                    system_name,
+                    self.testSampleModel.addColumn(system_name, db.Integer, ForeignKey(SystemSample.__tablename__ + ".id")),
+                )
+            )
 
-        # Une fois les clefs étrang. gen on créée la table
+        # Création de la table en base après génération des clés étrangères
         ModelFactory().commit(self.testSampleModel)
 
-        # On utilise les clefs etrang. nouvellement créées pour gen les relations bidirect. entre self.testSampleModel <-> SystemSample
-        for (system_name,foreign_key) in foreign_key_for_each_system:
-            #self.testSampleModel.addRelationship("SystemSample_"+system_name,SystemSample,uselist=False,foreign_keys=[foreign_key])
-            SystemSample.addRelationship(self.testSampleModel.__name__+"_"+system_name,self.testSampleModel,uselist=True,foreign_keys=[foreign_key], backref="SystemSample_"+system_name)
+        # Ajout des relations entre TestSample et SystemSample
+        for (system_name, foreign_key) in foreign_key_for_each_system:
+            SystemSample.addRelationship(
+                self.testSampleModel.__name__ + "_" + system_name,
+                self.testSampleModel,
+                uselist=True,
+                foreign_keys=[foreign_key],
+                backref="SystemSample_" + system_name,
+            )
 
-        # On établie la relation One User -> Many TestSample
-        StageModule.get_UserModel().addRelationship(self.testSampleModel.__name__,self.testSampleModel,uselist=True)
+        # Établissement d'une relation "One User -> Many TestSample"
+        StageModule.get_UserModel().addRelationship(
+            self.testSampleModel.__name__, self.testSampleModel, uselist=True
+        )
 
     def set_timeout_for_transaction(self,timeout):
         self.time_out_seconds = timeout
